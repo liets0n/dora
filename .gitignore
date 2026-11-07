@@ -1,0 +1,9 @@
+# Object files
+*.o
+
+# Executables
+dora
+*.out
+
+build/
+bin/
