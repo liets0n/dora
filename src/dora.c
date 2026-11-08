@@ -11,6 +11,7 @@ int main(const int argc, char *argv[]) {
     {"help", no_argument, NULL, 'h'},
     {"directory", required_argument, NULL, 'd'},
     {"name", required_argument, NULL, 'n'},
+    {"type", required_argument, NULL, 't'},
     {NULL, 0, NULL, 0}
   };
 
@@ -19,8 +20,9 @@ int main(const int argc, char *argv[]) {
   short help_requested = 0;
   char *dir = ".";
   char *name = NULL;
+  char *type = NULL;
 
-  while ((option = getopt_long(argc, argv, ":hd:n:", long_options, NULL)) != -1) {
+  while ((option = getopt_long(argc, argv, ":hd:n:t:", long_options, NULL)) != -1) {
     switch (option) {
       case 'h':
         help_requested = 1;
@@ -30,6 +32,9 @@ int main(const int argc, char *argv[]) {
         break;
       case 'n':
         name = optarg;
+        break;
+      case 't':
+        type = optarg;
         break;
       case ':':
         fprintf(stderr,
@@ -77,7 +82,7 @@ int main(const int argc, char *argv[]) {
 
   size_t found_count = 0;
 
-  if (find_matches(dir, name, &found_count) == -1)
+  if (find_matches(dir, name, &found_count, type) == -1)
     return EXIT_FAILURE;
 
   if (found_count == 0) {

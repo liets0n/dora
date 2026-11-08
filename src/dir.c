@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-int find_matches(char *path, char *name, size_t *found_count) {
+int find_matches(char *path, char *name, size_t *found_count, char *type) {
   DIR *dir = opendir(path);
 
   if (dir == NULL) {
@@ -51,13 +51,23 @@ int find_matches(char *path, char *name, size_t *found_count) {
       continue;
     }
 
-    if (name == NULL || strcmp(entry->d_name, name) == 0) {
+    int type_matches = 1;
+
+    if (type != NULL) {
+      if (strcmp(type, "f") == 0) {
+        type_matches = S_ISREG(info.st_mode);
+      } else if (strcmp(type, "d") == 0) {
+        type_matches = S_ISDIR(info.st_mode);
+      }
+    }
+
+    if (type_matches && (name == NULL || strcmp(entry->d_name, name) == 0)) {
       printf("%s\n", fullpath);
       (*found_count)++;
     }
 
     if (S_ISDIR(info.st_mode)) {
-      if (find_matches(fullpath, name, found_count) != 0)
+      if (find_matches(fullpath, name, found_count, type) != 0)
         result = -1;
     }
 
