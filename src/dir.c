@@ -7,8 +7,6 @@
 
 #include "./../include/utils.h"
 
-static int verify_extension(const char *filename, const char *extension);
-
 int find_matches(char *path, char *name, size_t *found_count, char *type, char *extension, short ignore_case) {
   DIR *dir = opendir(path);
 
@@ -96,21 +94,4 @@ int find_matches(char *path, char *name, size_t *found_count, char *type, char *
   closedir(dir);
 
   return result;
-}
-
-static int verify_extension(const char *filename, const char *extension) {
-  if (extension == NULL)
-    return 1;
-
-  const char *dot = strrchr(filename, '.');
-
-  if (dot == NULL || dot == filename || dot[1] == '\0') {
-    return 0;
-  }
-
-  if (*extension == '.') {
-    extension++;
-  }
-
-  return strcmp(dot + 1, extension) == 0;
 }
