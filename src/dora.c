@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <getopt.h>
 
+#include "./../include/dir.h"
+
+
 void help(const char *program);
 
 int main(const int argc, char *argv[]) {
@@ -56,11 +59,9 @@ int main(const int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  const char *filename = argv[optind];
+  char *filename = argv[optind];
 
-  printf("Looking for: %s...\n", filename);
-
-  return EXIT_SUCCESS;
+  return find_matches(".", filename);
 }
 
 void help(const char *program) {
