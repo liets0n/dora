@@ -6,7 +6,7 @@ void help(const char *program) {
   printf("\n");
 
   printf("Usage:\n");
-  printf("\t%s [OPTIONS] <filename>\n", program);
+  printf("\t%s [OPTIONS] -d <directory> -n <name>\n", program);
 
   printf("\n");
 
@@ -16,14 +16,24 @@ void help(const char *program) {
   printf("\n");
 
   printf("OPTIONS:\n");
-  printf("\t-h, --help \t Display this help message\n");
+  printf("\t-h, --help\n");
+  printf("\t\t Display this help message\n");
+
+  printf("\n");
+
+  printf("\t-d <directory>, --directory\n");
+  printf("\t\t Specify the directory where the search will start\n");
+
+  printf("\n");
+
+  printf("\t-n <name>, --name\n");
+  printf("\t\t Search for a file or directory by name\n");
 
   printf("\n");
 
   printf("EXAMPLES:\n");
-  printf("\t%s document.pdf\n", program);
-  printf("\t%s report.txt\n", program);
-  printf("\t%s --help\n", program);
+  printf("\t%s -d .\n", program);
+  printf("\t%s -d Downloads -n document.pdf\n", program);
 
   printf("\n");
 
