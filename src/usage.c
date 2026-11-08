@@ -21,13 +21,23 @@ void help(const char *program) {
 
   printf("\n");
 
-  printf("\t-d <directory>, --directory\n");
+  printf("\t-d, --directory <directory>\n");
   printf("\t\t Specify the directory where the search will start\n");
 
   printf("\n");
 
-  printf("\t-n <name>, --name\n");
+  printf("\t-n, --name <name>\n");
   printf("\t\t Search for a file or directory by name\n");
+
+  printf("\n");
+
+  printf("\t-t, --type <file_type>\n");
+  printf("\t\t Filter by entry type (f=file, d=directory)\n");
+
+  printf("\n");
+
+  printf("\t-e, --extension <extension>\n");
+  printf("\t\t Filter files by extension (e.g. pdf, txt))\n");
 
   printf("\n");
 
