@@ -3,6 +3,6 @@
 
 #include <stdlib.h>
 
-int find_matches(char *path, char *name, size_t *found_count, char *type);
+int find_matches(char *path, char *name, size_t *found_count, char *type, char *extension);
 
 #endif

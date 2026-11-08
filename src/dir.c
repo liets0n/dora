@@ -5,7 +5,9 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-int find_matches(char *path, char *name, size_t *found_count, char *type) {
+static int verify_extension(const char *filename, const char *extension);
+
+int find_matches(char *path, char *name, size_t *found_count, char *type, char *extension) {
   DIR *dir = opendir(path);
 
   if (dir == NULL) {
@@ -62,12 +64,14 @@ int find_matches(char *path, char *name, size_t *found_count, char *type) {
     }
 
     if (type_matches && (name == NULL || strcmp(entry->d_name, name) == 0)) {
-      printf("%s\n", fullpath);
-      (*found_count)++;
+      if (verify_extension(entry->d_name, extension) == 1) {
+        printf("%s\n", fullpath);
+        (*found_count)++;
+      }
     }
 
     if (S_ISDIR(info.st_mode)) {
-      if (find_matches(fullpath, name, found_count, type) != 0)
+      if (find_matches(fullpath, name, found_count, type, extension) != 0)
         result = -1;
     }
 
@@ -77,4 +81,21 @@ int find_matches(char *path, char *name, size_t *found_count, char *type) {
   closedir(dir);
 
   return result;
+}
+
+static int verify_extension(const char *filename, const char *extension) {
+  if (extension == NULL)
+    return 1;
+
+  const char *dot = strrchr(filename, '.');
+
+  if (dot == NULL || dot == filename || dot[1] == '\0') {
+    return 0;
+  }
+
+  if (*extension == '.') {
+    extension++;
+  }
+
+  return strcmp(dot + 1, extension) == 0;
 }
