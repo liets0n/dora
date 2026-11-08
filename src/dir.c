@@ -10,11 +10,12 @@ int find_matches(char *path, char *name) {
 
   if (dir == NULL) {
     perror(path);
-    return EXIT_FAILURE;
+    return -1;
   }
 
   struct dirent *entry;
-  int result = EXIT_SUCCESS;
+  
+  int result = 0;
 
   while (1) {
     errno = 0;
@@ -23,7 +24,7 @@ int find_matches(char *path, char *name) {
     if (entry == NULL) {
       if (errno != 0) {
         perror(path);
-        result = EXIT_FAILURE;
+        result = -1;
       }
       break;
     }
@@ -36,7 +37,7 @@ int find_matches(char *path, char *name) {
 
     if (fullpath == NULL) {
       perror("malloc");
-      result = EXIT_FAILURE;
+      result = -1;
       break;
     }
 
@@ -47,7 +48,7 @@ int find_matches(char *path, char *name) {
     if (lstat(fullpath, &info) == -1) {
       perror(fullpath);
       free(fullpath);
-      result = EXIT_FAILURE;
+      result = -1;
       continue;
     }
 
@@ -60,7 +61,7 @@ int find_matches(char *path, char *name) {
 
     if (S_ISDIR(info.st_mode)) {
       if (find_matches(fullpath, name) != 0)
-        result = EXIT_FAILURE;
+        result = -1;
     }
 
     free(fullpath);

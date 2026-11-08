@@ -75,13 +75,17 @@ int main(const int argc, char *argv[]) {
   }
 
   if (argc - optind == 0 && dir == NULL && name == NULL) {
-    find_matches(".", NULL);
+    if (find_matches(".", NULL) == -1)
+      return EXIT_FAILURE;
   } else if (argc - optind == 0 && dir == NULL && name != NULL) {
-    find_matches(".", name);
+    if (find_matches(".", name) == -1)
+      return EXIT_FAILURE;
   } else if (argc - optind == 0 && dir != NULL && name == NULL) {
-    find_matches(dir, NULL);
+    if (find_matches(dir, NULL) == -1)
+      return EXIT_FAILURE;
   } else if (argc - optind == 0 && dir != NULL && name != NULL) {
-    find_matches(dir, name);
+    if (find_matches(dir, name) == -1)
+      return EXIT_FAILURE;
   } else {
     fprintf(stderr,
       "Error: Unknown argument...\n\n"
