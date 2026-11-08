@@ -5,9 +5,11 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#include "./../include/utils.h"
+
 static int verify_extension(const char *filename, const char *extension);
 
-int find_matches(char *path, char *name, size_t *found_count, char *type, char *extension) {
+int find_matches(char *path, char *name, size_t *found_count, char *type, char *extension, short ignore_case) {
   DIR *dir = opendir(path);
 
   if (dir == NULL) {
@@ -63,15 +65,28 @@ int find_matches(char *path, char *name, size_t *found_count, char *type, char *
       }
     }
 
-    if (type_matches && (name == NULL || strcmp(entry->d_name, name) == 0)) {
+    char *tmp = malloc(strlen(entry->d_name) + 1);
+
+    if (tmp == NULL) {
+      perror("malloc");
+      return -1;
+    }
+
+    strcpy(tmp, entry->d_name);
+
+    to_lowercase(tmp, ignore_case);
+
+    if (type_matches && (name == NULL || strcmp(tmp, name) == 0)) {
       if (verify_extension(entry->d_name, extension) == 1) {
         printf("%s\n", fullpath);
         (*found_count)++;
       }
     }
 
+    free(tmp);
+
     if (S_ISDIR(info.st_mode)) {
-      if (find_matches(fullpath, name, found_count, type, extension) != 0)
+      if (find_matches(fullpath, name, found_count, type, extension, ignore_case) != 0)
         result = -1;
     }
 

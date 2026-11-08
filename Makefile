@@ -5,7 +5,7 @@ INCLUDE_DIR := ./include
 
 CC := gcc
 
-OBJS := dora.o dir.o usage.o
+OBJS := dora.o dir.o usage.o utils.o
 
 # Compiler and Linker flags Settings:
 #   -Wall: Enable all warnings

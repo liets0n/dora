@@ -31,13 +31,18 @@ void help(const char *program) {
 
   printf("\n");
 
+  printf("\t-i, --ignore-case\n");
+  printf("\t\t Ignore case distinctions (e.g. DORA.txt and dora.txt will be interpreted as the same)\n");
+
+  printf("\n");
+
   printf("\t-t, --type <file_type>\n");
   printf("\t\t Filter by entry type (f=file, d=directory)\n");
 
   printf("\n");
 
   printf("\t-e, --extension <extension>\n");
-  printf("\t\t Filter files by extension (e.g. pdf, txt))\n");
+  printf("\t\t Filter files by extension (e.g. pdf, txt)\n");
 
   printf("\n");
 

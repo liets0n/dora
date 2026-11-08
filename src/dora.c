@@ -5,6 +5,7 @@
 
 #include "./../include/dir.h"
 #include "./../include/usage.h"
+#include "./../include/utils.h"
 
 int main(const int argc, char *argv[]) {
   const struct option long_options[] = {
@@ -13,6 +14,7 @@ int main(const int argc, char *argv[]) {
     {"name", required_argument, NULL, 'n'},
     {"type", required_argument, NULL, 't'},
     {"extension", required_argument, NULL, 'e'},
+    {"ignore-case", no_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
   };
 
@@ -23,8 +25,9 @@ int main(const int argc, char *argv[]) {
   char *name = NULL;
   char *type = NULL;
   char *extension = NULL;
+  short ignore_case = 0;
 
-  while ((option = getopt_long(argc, argv, ":hd:n:t:e:", long_options, NULL)) != -1) {
+  while ((option = getopt_long(argc, argv, ":hd:n:t:e:i", long_options, NULL)) != -1) {
     switch (option) {
       case 'h':
         help_requested = 1;
@@ -40,6 +43,9 @@ int main(const int argc, char *argv[]) {
         break;
       case 'e':
         extension = optarg;
+        break;
+      case 'i':
+        ignore_case = 1;
         break;
       case ':':
         fprintf(stderr,
@@ -87,7 +93,22 @@ int main(const int argc, char *argv[]) {
 
   size_t found_count = 0;
 
-  if (find_matches(dir, name, &found_count, type, extension) == -1)
+  if (ignore_case == 1 && name == NULL) {
+    fprintf(stderr,
+      "Error: Must provide '-n'.\n\n"
+      "Usage:\n"
+      "\t%s -n <name>\n"
+      "\t%s -i -n <name>\n\n"
+      "Try '%s --help' for more information.\n",
+      argv[0], argv[0], argv[0]);
+
+    return EXIT_FAILURE;
+  }
+
+  if (ignore_case == 1 && name != NULL)
+    to_lowercase(name, ignore_case);
+
+  if (find_matches(dir, name, &found_count, type, extension, ignore_case) == -1)
     return EXIT_FAILURE;
 
   if (found_count == 0) {
