@@ -17,7 +17,7 @@ int main(const int argc, char *argv[]) {
   int option;
 
   short help_requested = 0;
-  char *dir = NULL;
+  char *dir = ".";
   char *name = NULL;
 
   while ((option = getopt_long(argc, argv, ":hd:n:", long_options, NULL)) != -1) {
@@ -77,29 +77,8 @@ int main(const int argc, char *argv[]) {
 
   size_t found_count = 0;
 
-  if (argc - optind == 0 && dir == NULL && name == NULL) {
-    if (find_matches(".", NULL, &found_count) == -1)
-      return EXIT_FAILURE;
-  } else if (argc - optind == 0 && dir == NULL && name != NULL) {
-    if (find_matches(".", name, &found_count) == -1)
-      return EXIT_FAILURE;
-  } else if (argc - optind == 0 && dir != NULL && name == NULL) {
-    if (find_matches(dir, NULL, &found_count) == -1)
-      return EXIT_FAILURE;
-  } else if (argc - optind == 0 && dir != NULL && name != NULL) {
-    if (find_matches(dir, name, &found_count) == -1)
-      return EXIT_FAILURE;
-  } else {
-    fprintf(stderr,
-      "Error: Unknown argument...\n\n"
-      "Usage:\n"
-      "\t%s -d <directory>\n"
-      "\t%s -d <directory> -n <name>\n\n"
-      "Try '%s --help' for more information.\n",
-      argv[0], argv[0], argv[0]);
-
+  if (find_matches(dir, name, &found_count) == -1)
     return EXIT_FAILURE;
-  }
 
   if (found_count == 0) {
     printf("No matches found.\n");
