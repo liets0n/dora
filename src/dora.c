@@ -76,6 +76,8 @@ int main(const int argc, char *argv[]) {
 
   if (argc - optind == 0 && dir == NULL && name == NULL) {
     find_matches(".", NULL);
+  } else if (argc - optind == 0 && dir == NULL && name != NULL) {
+    find_matches(".", name);
   } else if (argc - optind == 0 && dir != NULL && name == NULL) {
     find_matches(dir, NULL);
   } else if (argc - optind == 0 && dir != NULL && name != NULL) {
