@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -74,17 +75,19 @@ int main(const int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
+  size_t found_count = 0;
+
   if (argc - optind == 0 && dir == NULL && name == NULL) {
-    if (find_matches(".", NULL) == -1)
+    if (find_matches(".", NULL, &found_count) == -1)
       return EXIT_FAILURE;
   } else if (argc - optind == 0 && dir == NULL && name != NULL) {
-    if (find_matches(".", name) == -1)
+    if (find_matches(".", name, &found_count) == -1)
       return EXIT_FAILURE;
   } else if (argc - optind == 0 && dir != NULL && name == NULL) {
-    if (find_matches(dir, NULL) == -1)
+    if (find_matches(dir, NULL, &found_count) == -1)
       return EXIT_FAILURE;
   } else if (argc - optind == 0 && dir != NULL && name != NULL) {
-    if (find_matches(dir, name) == -1)
+    if (find_matches(dir, name, &found_count) == -1)
       return EXIT_FAILURE;
   } else {
     fprintf(stderr,
@@ -96,6 +99,12 @@ int main(const int argc, char *argv[]) {
       argv[0], argv[0], argv[0]);
 
     return EXIT_FAILURE;
+  }
+
+  if (found_count == 0) {
+    printf("No matches found.\n");
+  } else {
+    printf("\nFound %zu matches.\n", found_count);
   }
 
   return EXIT_SUCCESS;
