@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-int find_matches(char *path, char *filename) {
+int find_matches(char *path, char *name) {
   DIR *dir = opendir(path);
 
   if (dir == NULL) {
@@ -51,11 +51,15 @@ int find_matches(char *path, char *filename) {
       continue;
     }
 
-    if (strcmp(entry->d_name, filename) == 0)
+    if (name == NULL) {
       printf("%s\n", fullpath);
+    } else {
+      if (strcmp(entry->d_name, name) == 0)
+        printf("%s\n", fullpath);
+    }
 
     if (S_ISDIR(info.st_mode)) {
-      if (find_matches(fullpath, filename) != 0)
+      if (find_matches(fullpath, name) != 0)
         result = EXIT_FAILURE;
     }
 
