@@ -2,6 +2,7 @@ SRC_DIR := ./src
 BIN_DIR := ./bin
 BUILD_DIR := ./build
 INCLUDE_DIR := ./include
+INSTALL_DIR ?= /usr/local/bin
 
 CC := gcc
 
@@ -32,5 +33,11 @@ dir:
 clean:
 	@rm -rf $(BUILD_DIR) $(BIN_DIR)
 
+# Alter ./bin/dora permission and move to /usr/local/bin (INSTALL_DIR)
+install: dir dora
+	@install -d "${INSTALL_DIR}"
+	@install -m 755 ./bin/dora "${INSTALL_DIR}/dora"
+	@printf '\nDora installed successfully!\n'
+	@printf 'Run: dora -h\n'
 
-.PHONY: dir clean
+.PHONY: dir clean install
