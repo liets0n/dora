@@ -16,12 +16,20 @@ After a successful build, the executable will be generated at:
 bin/dora
 ```
 
-### Clean
+## Install
 
-To remove generated build files and the executable:
+To install Dora on your system, run:
 
 ```bash
-make clean
+sudo make install
+```
+
+By default, the executable is installed in `/usr/local/bin`, making it available system-wide.
+
+After installation, you can run Dora from any directory:
+
+```bash
+dora -h
 ```
 
 ## Usage
@@ -29,12 +37,14 @@ make clean
 ### Syntax
 
 ```bash
-./bin/dora [OPTIONS] -d <directory> -n <name>
+dora [OPTIONS] -d <directory> -n <name>
 ```
 
-### Description
+When running Dora directly from the build directory, use:
 
-Search for files and directories on your local machine.
+```bash
+./bin/dora [OPTIONS] -d <directory> -n <name>
+```
 
 ### Options
 
@@ -49,9 +59,30 @@ Search for files and directories on your local machine.
 
 ## Examples
 
-
 Search for a specific file in the Downloads directory:
 
 ```bash
-./bin/dora -d Downloads -n document.pdf
+dora -d Downloads -n document.pdf
 ```
+
+Search for files with a specific extension:
+
+```bash
+dora -d Downloads -e pdf
+```
+
+Search for a directory, ignoring case distinctions:
+
+```bash
+dora -d Documents -n projects -i -t d
+```
+
+## Uninstall
+
+To remove Dora from your system, run:
+
+```bash
+sudo make uninstall
+```
+
+This removes the Dora executable from the installation directory.
