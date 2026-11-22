@@ -40,4 +40,9 @@ install: dir dora
 	@printf '\nDora installed successfully!\n'
 	@printf 'Run: dora -h\n'
 
-.PHONY: dir clean install
+# Remove Dora
+uninstall:
+	@rm -f "$(INSTALL_DIR)/dora"
+	@printf '\nDora uninstalled successfully!\n'
+
+.PHONY: dir clean install uninstall
